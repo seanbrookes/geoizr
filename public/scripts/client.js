@@ -1,4 +1,6 @@
-
+/**
+ * added another test comment
+ */
 $(document).ready(function(){
     _.templateSettings.variable = "G";
 
