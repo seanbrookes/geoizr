@@ -84,9 +84,9 @@ function loadGeostaticList(){
      *
      */
 
-    var template = _.template(
-        $( "script.template" ).html()
-    );
+
+    var template = _.template( $("#tTemplate").html(), {} );
+
     $.ajax({
         type: 'GET',
         url: '/geostatics',
