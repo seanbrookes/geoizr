@@ -95,12 +95,13 @@ function loadGeostaticList(){
             $.each(response, function(item) {
                 outputString += '<li data-id="' + this._id + '" class="geostatic-container">';
                 if (this.name){
-                    outputString += '<p class="geostatic-item-display-name"><a data-id="' + this._id + '" class="cmd-point-name" href="#">' + this.name + '</a></p>'
+                    outputString += '<p class="geostatic-item-display-name"><a data-id="' + this._id + '" class="cmd-point-name" href="#">' + this.name + '</a></p>';
 
                 }
-                outputString += '<a data-id="' + this._id + '" class="cmd-point-name" href="#">' + this.point[0] + ' | ' + this.point[1] + '</a></li>'
+                outputString += '<a data-id="' + this._id + '" class="cmd-point-name" href="#">' + this.point[0] + ' | ' + this.point[1] + '</a></li>';
             });
-            var stringifiedOutput = JSON.stringify(response);
+           // var stringifiedOutput = JSON.stringify(response);
+            var stringifiedOutput = response;
             console.log('successful get geostatics');
             $('.list-coords').html(outputString);
             $('.cmd-point-name').contextMenu({
@@ -127,7 +128,8 @@ function loadGeostaticList(){
                                 success: function(data){
                                     var outputstring;
 
-                                    console.log('successful delete geostatic:  ' + JSON.stringify(data));
+                                    //console.log('successful delete geostatic:  ' + JSON.stringify(data));
+                                    console.log('successful delete geostatic:  ' + data);
                                     loadGeostaticList();
                                 },
                                 error: function(response){
@@ -193,7 +195,8 @@ function loadGeostaticList(){
                                         success: function(data){
                                             var outputstring;
 
-                                            console.log('successful put geostatic:  ' + JSON.stringify(data));
+                                            console.log('successful put geostatic:  ' + data);
+                                            //console.log('successful put geostatic:  ' + JSON.stringify(data));
                                             loadGeostaticList();
                                         },
                                         error: function(response){
@@ -222,7 +225,9 @@ function loadGeostaticList(){
                 }
             );
         },
-        error: function(){console.log('fail get')}
+        error: function(){
+            console.log('fail get');
+        }
     });
 }
 
