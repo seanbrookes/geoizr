@@ -5,7 +5,12 @@
  * Time: 9:51 PM
  * To change this template use File | Settings | File Templates.
  */
-var map = (function(){
+var mapModule = (function(){
+    var that = this;
+    _.templateSettings.variable = "G";
+
+    // Grab the HTML out of our template tag and pre-compile it.
+
     /**
      * Initialize
      *
@@ -26,7 +31,7 @@ var map = (function(){
          *
          *
          */
-        var template = _.template( $("#tTemplate").html(), {} );
+//        var template = _.template( $("#tTemplate").html(), {} );
 
         $.ajax({
             type: 'GET',
@@ -108,13 +113,14 @@ var map = (function(){
                                 url: '/geostatics/' + $(el).attr('data-id'),
                                 success: function(data){
                                     var outputstring;
-
-                                    console.log('successful get geostatic:  ' + data);
-                                    var test = data;
-                                    var xyz = test;
-                                    $(el).after(
-                                        template( data )
+                                    var template = _.template(
+                                        $( "script.template" ).html()
                                     );
+                                   // var test = JSON.parse(data);
+                                    console.log('successful get geostatic:  ' + data);
+
+                                    var templateOut = $("#tTemplate").html();
+                                    $(el).after(template( data ));
                                     $('.btn-cancel').click(function(event){
                                         $('.point-form').hide();
                                         event.preventDefault();
@@ -291,6 +297,9 @@ var map = (function(){
     return{
         initialize:function(){
             return initialize();
+        },
+        findAddress:function(address){
+            return findAddress(address);
         }
     };
 
