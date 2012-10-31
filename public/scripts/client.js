@@ -9,9 +9,11 @@ $(document).ready(function(){
     $('.btn-address-find').click(function(event){
         var addressValue = $('.input-address').val();
         console.log(addressValue);
-        map.findAddress(addressValue);
+        mapModule.findAddress(addressValue);
 
     });
-    map.initialize();
+    mapModule.initialize();
 
 });
+    // 22300 River Road Maple Ridge BC
+// 22934 Vista Ridge Dr. Maple Ridge BC
