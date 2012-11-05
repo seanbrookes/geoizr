@@ -1,51 +1,84 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>geoizr home</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 
         <link rel="stylesheet" type="text/css" href="css/style.css">
-
-        <script type="text/javascript" src="scripts/lib/jquery-1.8.2.min.js"></script>
-        <script type="text/javascript"
-                src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAB5FqSgxWw51Js1gOfVub6DzZhuIpYYis&sensor=false">
-        </script>
+        <link rel="stylesheet" type="text/css" href="css/jquery.contextMenu.css">
 
     </head>
 
     <body >
 
+        <!-- Body Markup -->
         <div class="main-content ui-container">
-            <div class="main-content-wrapper ui-container">
-                <header>
-                    <div>
+            <header>
+                <div>
+                    <a href="/">
                         <span>Geoizr home</span>
-                        <input type="text" placeholder="address lookup" class="input-address" />
-                        <button class="btn-address-find" value="Submit">Submit</button>
-                        <ul class="list-coords"></ul>
-                    </div>
-                </header>
-                <div class="map-container ui-container">
-                    <!-- Map Rendering Container -->
-                    <div id="map_canvas" class="ui-container"></div>
+                    </a>
+                    |
+                    <a href="#map">map</a>
+                    |
+                    <a href="#point">point</a>
+                    <input type="text" placeholder="address lookup" class="input-address" />
+                    <button class="btn-address-find" value="Submit">Submit</button>
+                    <ul class="list-coords"></ul>
                 </div>
+
+            </header>
+            <div class="main-content-wrapper ui-container">
+
+
             </div>
         </div>
 
+        <!-- Context Menu -->
+        <ul id="myMenu" class="contextMenu">
+            <li class="edit">
+                <a href="#edit">Edit</a>
+            </li>
+            <li class="cut separator">
+                <a href="#cut">Cut</a>
+            </li>
+            <li class="copy">
+                <a href="#copy">Copy</a>
+            </li>
+            <li class="paste">
+                <a href="#paste">Paste</a>
+            </li>
+            <li class="delete">
+                <a href="#delete">Delete</a>
+            </li>
+            <li class="quit separator">
+                <a href="#quit">Quit</a>
+            </li>
+        </ul>
+
+
+
+        <!-- Scripts -->
+        <script type="text/javascript" src="scripts/lib/jquery-1.8.2.min.js"></script>
+        <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAB5FqSgxWw51Js1gOfVub6DzZhuIpYYis&sensor=false"></script>
+        <script type="text/javascript" src="scripts/lib/require.js"></script>
+        <script type="text/javascript" src="scripts/lib/map/mxn.js?(googlev3)"></script>
         <script type="text/javascript" src="scripts/lib/underscore.js"></script>
         <script type="text/javascript" src="scripts/lib/backbone.js"></script>
+        <script type="text/javascript" src="scripts/lib/json2.js"></script>
+
         <script type="text/javascript" src="scripts/lib/jquery.contextMenu.js"></script>
 
-        <!--<script type="text/javascript" src="scripts/lib/json.js"></script>-->
-
-        <script type="text/javascript" src="scripts/module/map.js"></script>
+        <!--<script data-main="scripts/main" src="scripts/lib/require.js"></script>-->
+        <script type="text/javascript" src="scripts/main.js"></script>
+        <script type="text/javascript" src="modules/home/module.js"></script>
+        <script type="text/javascript" src="modules/map/module.js"></script>
         <script type="text/javascript" src="scripts/client.js"></script>
 
-        <script type="text/template" id="tTemplate">
-            <label>Search</label>
-            <input type="text" id="search_input" />
-            <input type="button" id="search_button" value="Search" />
-        </script>
+
+
+
+
     </body>
 </html>

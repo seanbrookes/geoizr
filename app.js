@@ -45,10 +45,10 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+//app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/geostatics', geostatic.getGeostatics);
 app.get('/geostatics/:id', geostatic.getGeostatic);
-app.get('/', routes.index);
 app.put('/geostatics/:id', express.bodyParser(), geostatic.updateGeostatic);
 app.post('/geostatics', express.bodyParser(), geostatic.newGeostatic);
 app.delete('/geostatics/:id', geostatic.deleteGeostatic);

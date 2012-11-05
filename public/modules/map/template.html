@@ -1,0 +1,20 @@
+<!-- Map Module Template -->
+
+<!-- Main Map Container -->
+<div  class="mainmap-container ui-container">
+
+    <!-- Map Rendering Container -->
+    <div id="map_canvas" class="ui-container"></div>
+
+</div>
+
+<!-- Templates -->
+<script type="text/template" id="tTemplate" class="ui-template">
+    <form class="point-form">
+        <span>Edit</span>
+        <input type="text" id="name" value="<%= G.name %>" />
+        <input type="text" id="description" value="<%= G.description %>" />
+        <button class="btn-save">Save</button>
+        <button class="btn-cancel">Cancel</button>
+    </form>
+</script>
