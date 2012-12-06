@@ -1,12 +1,19 @@
 {
-  "name": "application-name",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node app"
-  },
-  "dependencies": {
-    "express": "3.0.0rc5",
-    "jade": "*"
-  }
+    "name": "geoizr",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "start": "node app"
+    },
+    "dependencies": {
+        "express": "3.0.x",
+        "connect-mongodb": "1.1.x",
+        "mongoose":"3.4.x",
+        "passport":"0.1.x",
+        "request":"2.12.x"
+    },
+    "engines":{
+        "npm":"1.1.x",
+        "node":"0.8.x"
+    }
 }
