@@ -13,7 +13,6 @@ var express = require('express')
 	, receipts = require('./routes/receipts')
 	, auth = require('./routes/auth')
 	, http = require('http')
-	, moment = require('moment')
 	, mongoose = require('mongoose')
 	, path = require('path');
 
