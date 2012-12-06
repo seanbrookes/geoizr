@@ -13,18 +13,7 @@
  */
 
 var mongoose = require('mongoose');
-console.log('START CONNECTION BLOCK');
-mongoose.connect('mongodb://localhost:27017/geostatics',function(err){
-    if(err){
-        console.log('--------------------------------');
-        console.log('Hello Connection ERROR : ' + err);
-        console.log('--------------------------------');
-    }
-    else{
-        console.log('Connected to MONGO!!!!!!!!!!!!!!!!');
-    }
-});
-console.log('END CONNECTION BLOCK');
+//console.log('END CONNECTION BLOCK');
 var Schema = mongoose.Schema;
 
 var Geostatic = new Schema({
@@ -44,9 +33,16 @@ var Activity = new Schema({
 });
 var GeostaticModel = mongoose.model('Geostatic', Geostatic);
 
+exports.postGeoCodeAddress = function(req, res){
+	console.log('[GEOIZR]:getGeoCode');
+};
+exports.getGeoCode = function(req, res){
+	console.log('[GEOIZR]:getGeoCode http://nominatim.openstreetmap.org/search?q=34910+brient+dr,+Mission,+BC&format=json');
+	res.send('[GEOIZR]:getGeoCode http://nominatim.openstreetmap.org/search?q=34910+brient+dr,+Mission,+BC&format=json');
+};
 exports.newGeostatic = function(req, res){
     console.log('--------------------------------');
-    console.log('|   exports.newGeostatic   A');
+    console.log('|[exports.newGeostatic]   exports.newGeostatic   A');
     console.log('--------------------------------');
 
     var geostatic;
@@ -56,7 +52,7 @@ exports.newGeostatic = function(req, res){
 
 
         if (req.body.lat){
-            console.log('New Geostatic: ');
+            console.log('[exports.newGeostatic] New Geostatic: ');
             /*
              we have a successful geostatic post object from the browser (map app)
 
@@ -70,13 +66,13 @@ exports.newGeostatic = function(req, res){
 
 
 
-            console.log('we have lat:  ' + req.body.lat);
-            console.log('we have lng:  ' + req.body.lng);
+            console.log('[exports.newGeostatic] we have lat:  ' + req.body.lat);
+            console.log('[exports.newGeostatic] we have lng:  ' + req.body.lng);
 
 
-            console.log("POST: ");
-            console.log('req.body: ' + req.body);
-            console.log('1');
+            console.log('[exports.newGeostatic] POST: ');
+            console.log('[exports.newGeostatic] req.body: ' + req.body);
+            console.log('[exports.newGeostatic] 1');
 
             var geostaticName = '', geostaticDescription = '';
             console.log('2');
@@ -98,41 +94,42 @@ exports.newGeostatic = function(req, res){
             geostatic.save(function (err) {
 
                 if (!err) {
-                    console.log("Geosatic model created");
+                    console.log('[exports.newGeostatic] Geosatic model created: ' + geostatic);
+                    res.send(geostatic);
 
                 } else {
-                    console.log('save Geosatic model failed: ' + err);
+                    console.log('[exports.newGeostatic] save Geosatic model failed: ' + err);
                 }
 
             });
             console.log('6');
             GeostaticModel.find(function(err,geostatic){
                 if(err){
-                    console.log('read geostatic instance error: ' + err);
+                    console.log('[exports.newGeostatic] read geostatic instance error: ' + err);
                 }
                 else{
-                    console.log('geostatic instance: ' + geostatic);
+                    console.log('[exports.newGeostatic] geostatic instance: ' + geostatic);
                 }
             });
             console.log('7');
             //res.send(geostatic);
         }
         else{
-            console.log('we have no lat:  ');
+            console.log('[exports.newGeostatic] we have no lat:  ');
 
         }
        // mongoose.connection.close();
     }
     else{
-        console.log('no body:  ');
+        console.log('[exports.newGeostatic] no body:  ');
 
     }
-    console.log('DONE  - Posted geostatic: ' + req.body.lat + ' ' + req.body.lng + '  Geostatic: ' + geostatic );
-    console.log('|-------------------------------------------');
+    console.log('[exports.newGeostatic] DONE  - Posted geostatic: ' + req.body.lat + ' ' + req.body.lng + '  Geostatic: ' + geostatic );
+    console.log('|[exports.newGeostatic] -------------------------------------------');
     console.log('|');
     console.log('|');
     console.log('|');
-    console.log('|');
+    console.log('|[exports.newGeostatic] ');
 };
 /**
  *
@@ -144,22 +141,21 @@ exports.newGeostatic = function(req, res){
  * @return {*}
  */
 exports.getGeostatics = function(req,res){
-    console.log('|');
-    console.log('|stRT exports.getGeostatics');
+    console.log('|[exports.getGeostatics] ');
+    console.log('|[exports.getGeostatics] stRT exports.getGeostatics');
 
     return GeostaticModel.find(function(err, geostatics) {
-        console.log('|stRT exports1');
+        console.log('|[exports.getGeostatics] stRT exports1');
         if (!err) {
-            console.log('return GeostaticModel collection: ' + geostatics);
+            console.log('[exports.getGeostatics] return GeostaticModel collection: ' + geostatics);
 
             return res.send(geostatics);
         } else {
-            console.log('|stRT 2');
+            console.log('|[exports.getGeostatics] stRT 2');
             return console.log(err);
         }
-        console.log('|stRT exports 3');
     });
-    console.log('|stRT exports4');
+
 
 };
 /**
@@ -174,6 +170,7 @@ exports.getGeostatics = function(req,res){
 exports.getGeostatic = function(req,res){
     return GeostaticModel.findById(req.params.id, function(err, geostatic) {
         if (!err) {
+            console.log('[exports.getGeostatic] RETURNING GEOSTATIC: ' + req.params.id);
             return res.send(geostatic);
         } else {
             return console.log(err);
@@ -196,7 +193,7 @@ exports.updateGeostatic = function(req, res){
         geostatic.modified = Date.now();
         return geostatic.save(function (err) {
             if (!err) {
-                console.log("updated");
+                console.log('[exports.updateGeostatic] updated');
             } else {
                 console.log(err);
             }
@@ -216,7 +213,7 @@ exports.deleteGeostatic = function(req, res){
     return GeostaticModel.findById(req.params.id, function (err, geostatic) {
         return geostatic.remove(function (err) {
             if (!err) {
-                console.log("deleted");
+                console.log('[exports.deleteGeostatic] deleted');
             } else {
                 console.log(err);
             }
