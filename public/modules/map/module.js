@@ -14,41 +14,48 @@
  *
  *
  */
-var mapModule = (function(){
+var mapModule = (function(exports){
     _.templateSettings.variable = "G";
     var mainMap,
         map,
-        map2,
+        baseMap,
         currentMarkers = [];
     var bIsInit = false;
+    exports.EventBus = {};
 
 
     // Grab the HTML out of our template tag and pre-compile it.
 
-    function initMap(callbackArg){
+    function initBaseMap(callbackArg){
         var initFunc = callbackArg;
         if (!bIsInit){
             $('.main-content-wrapper').load('modules/map/template.html',function(callback){
-                map2 = new mxn.Mapstraction('map_canvas', 'googlev3');
+                baseMap = new mxn.Mapstraction('map_canvas', 'googlev3');
+                // add load handler to trigger map is ready event
+                baseMap.load.addHandler(function(event_name, event_source, event_args) {
+                    $(exports.EventBus).trigger('baseMapInitialized');
+                });
+
                 var args = { pan:	 true, zoom:	 'large' || 'small', overview: true, scale:	true, map_type: true, }
-                map2.addControls(args);
-                map2.autoCenterAndZoom();
-                map2.click.addHandler(function(event_name, event_source, event_args){
-                    //map2.addEventListener('click',function(clickpoint){
+                baseMap.addControls(args);
+                baseMap.autoCenterAndZoom();
+                baseMap.click.addHandler(function(event_name, event_source, event_args){
+                    //baseMap.addEventListener('click',function(clickpoint){
                     var a = event_name;
                     var b = event_source;
                     var c  = event_args;
                     console.log('latitude' + c.location.lat + '\nlongitude: ' + c.location.lon);
                     if (confirm('add new marker here?')){
                         // var marker = new mxn.Marker(new mxn.LatLonPoint(c.location.lat, c.location.lon));
-                        // map2.addMarker(marker);
+                        // baseMap.addMarker(marker);
                         // map.setCenter(event.latLng);
                         placeMarker({name:c.name,location:c.location});
 
                     }
                 });
 
-                bIsInit = true;
+                //bIsInit = true;
+
                 if (initFunc){
                     initFunc();
                 }
@@ -63,7 +70,7 @@ var mapModule = (function(){
 
         //$('.main-content-wrapper').load('modules/map/template.html',function(){
             //var currentPosition = navigator.geolocation.getCurrentPosition(renderMap);
-            //map2 = new mxn.Mapstraction('map_canvas', 'googlev3');
+            //baseMap = new mxn.Mapstraction('map_canvas', 'googlev3');
 
         if (bIsInit){
             var currentPosition = navigator.geolocation.getCurrentPosition(function(position){
@@ -72,25 +79,13 @@ var mapModule = (function(){
                 var lat = position.coords.latitude;
                 var lng = position.coords.longitude;
                 var latlon = new mxn.LatLonPoint(lat,lng);
-                map2.setCenterAndZoom(latlon, 10);
+                baseMap.setCenterAndZoom(latlon, 10);
 
                 var currentLocMarker = new mxn.Marker(latlon);
-                //currentLocMarker.setInfoBubble(locationObj.name);
-                map2.addMarker(currentLocMarker);
 
-//
-//                map2.click.addHandler(function(event_name, event_source, event_args){
-//                //map2.addEventListener('click',function(clickpoint){
-//                    var a = event_name;
-//                    var b = event_source;
-//                    var c  = event_args;
-//                    console.log('latitude' + c.location.lat + '\nlongitude: ' + c.location.lon);
-//                    if (confirm('add new marker here?')){
-////                        var marker = new mxn.Marker(new mxn.LatLonPoint(c.location.lat, c.location.lon));
-////                        map2.addMarker(marker);
-//                        placeMarker({name:c.name,location:c.location});
-//                    }
-//                });
+                baseMap.addMarker(currentLocMarker);
+
+
 
             });
 
@@ -337,10 +332,10 @@ var mapModule = (function(){
 
         var marker = new mxn.Marker(new mxn.LatLonPoint(locationObj.location.lat, locationObj.location.lon));
         marker.setInfoBubble(locationObj.name);
-        map2.addMarker(marker);
+        baseMap.addMarker(marker);
 
         var latlon = new mxn.LatLonPoint(locationObj.location.lat, locationObj.location.lon);
-        map2.setCenterAndZoom(latlon, 10);
+        baseMap.setCenterAndZoom(latlon, 10);
 
 
 
@@ -393,16 +388,16 @@ var mapModule = (function(){
 
         $('.main-content-wrapper').load('modules/map/template.html',function(){
             //var currentPosition = navigator.geolocation.getCurrentPosition(renderMap);
-            map2 = new mxn.Mapstraction('map_canvas', 'googlev3');
+            baseMap = new mxn.Mapstraction('map_canvas', 'googlev3');
 
             var lat = position.coords.latitude;
             var lng = position.coords.longitude;
             var latlon = new mxn.LatLonPoint(lat,lng);
-            map2.setCenterAndZoom(latlon, 10);
+            baseMap.setCenterAndZoom(latlon, 10);
 
             var currentLocMarker = new mxn.Marker(latlon);
             currentLocMarker.setInfoBubble(position.name);
-            map2.addMarker(currentLocMarker);
+            baseMap.addMarker(currentLocMarker);
 
 
 
@@ -417,7 +412,7 @@ var mapModule = (function(){
 
         var locMarker = new mxn.Marker(latlon);
         //currentLocMarker.setInfoBubble(position.name);
-        map2.addMarker(locMarker);
+        baseMap.addMarker(locMarker);
     }
     function renderPoint(id){
         var isPointCached = false;
@@ -435,23 +430,40 @@ var mapModule = (function(){
 //                    var lat = position.coords.latitude;
 //                    var lng = position.coords.longitude;
                     var latlon = new mxn.LatLonPoint(data.point[1],data.point[0]);
-                    map2.setCenterAndZoom(latlon, 10);
+                    baseMap.setCenterAndZoom(latlon, 10);
 
                     var currentLocMarker = new mxn.Marker(latlon);
                     currentLocMarker.setInfoBubble(data.name);
 
-                    map2.addMarker(currentLocMarker);
+                    baseMap.addMarker(currentLocMarker);
                     currentLocMarker.openBubble();
                 }
             });
         }
     }
+    function zoomShowAll(opts){
+        if (opts && opts.visibleOnly){
+            baseMap.visibleCenterAndZoom();
+        }
+        else{
+            baseMap.autoCenterAndZoom();
+        }
+    }
     return{
+        EventBus:function(){
+            return $(eventBus);
+        },
         init:function(){
             return initialize();
         },
-        initMap:function(callback){
-            initMap(callback);
+        zoomShowAll:function(opts){
+            return zoomShowAll(opts);
+        },
+        initBaseMap:function(callback){
+            initBaseMap(callback);
+        },
+        getBaseMap:function(){
+            return baseMap;
         },
         findAddress:function(address){
             return findAddress(address);
@@ -467,4 +479,4 @@ var mapModule = (function(){
         }
     };
 
-}());
+}(window));

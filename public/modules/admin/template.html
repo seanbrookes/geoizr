@@ -1,0 +1,18 @@
+<div class="module-content-container ui-container">
+    <h2>Login as</h2>        <a href="#" class="cmd-getcurrentuser">Get Current User</a> <span class="lbl-currentuser"></span>
+</div>
+
+<!-- Templates -->
+<script type="text/template" id="UserList" class="ui-template">
+    <ul class="auth-role-list">
+
+    </ul>
+</script>
+
+
+<script type="text/template" id="UserListItem" class="ui-template">
+    <li>
+        <a data-role="<%= G.userName %>" data-username="<%= G.userName %>" href="#"><%= G.userName %></a>
+    </li>
+</script>
+
