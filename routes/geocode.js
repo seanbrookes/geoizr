@@ -32,18 +32,21 @@ exports.getGeoCode = function(req, res){
 		response.on('data', function (chunk) {
 			str += chunk;
 		});
-
+		var responseObj = {};
 		//the whole response has been recieved, so we just print it out here
 		response.on('end', function () {
 			try{
-				var responseObj = JSON.parse(str);
-				var firstAddress = responseObj[0];
-				var returnString = firstAddress.lat + ' ' + firstAddress.lon;
+				var JSONRespObj = JSON.parse(str);
+				var firstAddress = JSONRespObj[0];
+				responseObj.lon = firstAddress.lon;
+				responseObj.lat = firstAddress.lat;
 			}
 			catch(e){
 				console.log('Geocode error: ' + e.message);
+				responseObj = {};
+
 			}
-			res.send(returnString);
+			res.send(responseObj);
 		});
 	}
 
