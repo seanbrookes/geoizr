@@ -1,0 +1,19 @@
+[
+    {
+        "place_id":"44970029",
+        "licence":"Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http:\/\/www.openstreetmap.org\/copyright",
+        "osm_type":"way",
+        "osm_id":"35498458",
+        "boundingbox":[
+            "49.1486549377441",
+            "49.1508140563965",
+            "-122.260528564453",
+            "-122.255187988281"
+        ],
+        "lat":"49.1500952",
+        "lon":"-122.2594772",
+        "display_name":"Brient Drive, Mission, Fraser Valley Regional District, British Columbia, Canada",
+        "class":"highway",
+        "type":"residential"
+    }
+]
